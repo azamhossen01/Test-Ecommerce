@@ -1,5 +1,72 @@
 @extends('layouts.frontend')
 
+@section('title','Cart')
+
+@push('css')
+<style>
+    input,
+    textarea {
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        margin: 0;
+        outline: none;
+        padding: 10px;
+    }
+
+    input[type="button"] {
+        -webkit-appearance: button;
+        cursor: pointer;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    .input-group {
+        clear: both;
+        margin: 15px 0;
+        position: relative;
+    }
+
+    .input-group input[type='button'] {
+        background-color: #eeeeee;
+        min-width: 38px;
+        width: auto;
+        transition: all 300ms ease;
+    }
+
+    .input-group .button-minus,
+    .input-group .button-plus {
+        font-weight: bold;
+        height: 38px;
+        padding: 0;
+        width: 38px;
+        position: relative;
+    }
+
+    .input-group .quantity-field {
+        position: relative;
+        height: 38px;
+        left: -6px;
+        text-align: center;
+        width: 62px;
+        display: inline-block;
+        font-size: 13px;
+        margin: 0 0 5px;
+        resize: vertical;
+    }
+
+    .button-plus {
+        left: -13px;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: none;
+    }
+</style>
+@endpush
 
 @section('content')
 <main class="main">
@@ -15,7 +82,10 @@
     <div class="container mb-6">
         <div class="row">
             <div class="col-lg-8">
+           
+              @if(Cart::instance('cart')->count() > 0)
                 <div class="cart-table-container">
+                
                     <table class="table table-cart">
                         <thead>
                             <tr>
@@ -25,8 +95,11 @@
                                 <th>Subtotal</th>
                             </tr>
                         </thead>
+                        <form action="{{route('update_cart')}}" method="post" id="myForm" class="d-none">
+                            @csrf
                         <tbody>
-                        @forelse(Cart::instance('cart')->content() as $key=>$cart)
+                       
+                            @forelse(Cart::instance('cart')->content() as $key=>$cart)
                             <tr class="product-row">
                                 <td class="product-col">
                                     <figure class="product-image-container">
@@ -40,7 +113,17 @@
                                 </td>
                                 <td>BDT {{$cart->price}}</td>
                                 <td>
-                                    <input class="vertical-quantity form-control" type="text">
+                                    <!-- <input class="vertical-quantity form-control" type="text"> -->
+                                    
+                                    <div class="input-group">
+                                        <input type="button" value="-" class="button-minus" data-id="{{$cart->id}}" data-field="quantity">
+                                        <input type="number" step="1" max="" value="{{$cart->qty}}" id="{{$cart->id}}" name="quantity"
+                                            class="quantity-field">
+                                            <input type="hidden" value="{{$cart->qty}}" id="qty{{$cart->id}}" name="qty[]">
+                                            <input type="hidden" value="{{$cart->rowId}}"  name="row_id[]">
+                                        <input type="button" value="+" class="button-plus"  data-id="{{$cart->id}}" data-field="quantity">
+                                    </div>
+                                   
                                 </td>
                                 <td>BDT {{$cart->subtotal}}</td>
                             </tr>
@@ -58,12 +141,13 @@
                                     </div><!-- End .float-right -->
                                 </td>
                             </tr>
-                        @empty 
-                        <h1>Cart is empty</h1>
-                        @endforelse
                             
-                        </tbody>
+                            @empty
+                            <h1>Cart is empty</h1>
+                            @endforelse
 
+                        </tbody>
+                        </form>
                         <tfoot>
                             <tr>
                                 <td colspan="4" class="clearfix">
@@ -72,17 +156,20 @@
                                     </div><!-- End .float-left -->
 
                                     <div class="float-right">
-                                        <a href="{{route('cart.clear')}}" class="btn btn-outline-secondary btn-clear-cart">Clear Shopping
+                                        <a href="{{route('cart.clear')}}"
+                                            class="btn btn-outline-secondary btn-clear-cart">Clear Shopping
                                             Cart</a>
-                                        <a href="javascript:void(0)" onclick="updateShoppingCart()" class="btn btn-outline-secondary btn-update-cart">Update Shopping
+                                        <a href="javascript:void(0)" onclick="updateShoppingCart()"
+                                            class="btn btn-outline-secondary btn-update-cart" id="btn_update_cart">Update Shopping
                                             Cart</a>
                                     </div><!-- End .float-right -->
                                 </td>
                             </tr>
                         </tfoot>
                     </table>
+                    
                 </div><!-- End .cart-table-container -->
-
+           
                 <div class="cart-discount">
                     <h4>Apply Discount Code</h4>
                     <form action="#">
@@ -95,6 +182,12 @@
                         </div><!-- End .input-group -->
                     </form>
                 </div><!-- End .cart-discount -->
+                @else 
+
+                <h1>Cart is empty</h1>
+
+            @endif
+
             </div><!-- End .col-lg-8 -->
 
             <div class="col-lg-4">
@@ -161,7 +254,7 @@
                             </tr>
 
                             <tr>
-                                <td>Tax</td>
+                                <td>Tax (5%)</td>
                                 <td>BDT {{Cart::instance('cart')->tax() ?? 0}}</td>
                             </tr>
                         </tbody>
@@ -187,11 +280,55 @@
 
 @push('js')
 <script>
+    function incrementValue(e) {
+        e.preventDefault();
+        
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
 
-    function updateShoppingCart(){
-        alert('test');
-        console.log($('.vertical-quantity').val());
+        if (!isNaN(currentVal)) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(0);
+        }
+        var id = $(e.target).data('id');
+        var data = $('#'+id).val();
+        console.log(data);
+        $('#qty'+id).val(data);
     }
 
+    function decrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal) && currentVal > 1) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(1);
+        }
+        var id = $(e.target).data('id');
+        var data = $('#'+id).val();
+        console.log(data);
+        $('#qty'+id).val(data);
+    }
+
+    $('.input-group').on('click', '.button-plus', function (e) {
+        incrementValue(e);
+    });
+
+    $('.input-group').on('click', '.button-minus', function (e) {
+        decrementValue(e);
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#btn_update_cart").click(function(){        
+        $("#myForm").submit(); // Submit the form
+    });
+    });
 </script>
 @endpush

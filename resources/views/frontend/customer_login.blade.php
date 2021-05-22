@@ -1,5 +1,6 @@
 @extends('layouts.frontend')
 
+@section('title','Customer Login')
 
 @section('content')
 <main class="main">

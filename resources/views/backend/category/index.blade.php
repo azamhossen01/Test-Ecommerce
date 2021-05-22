@@ -35,6 +35,7 @@
                   <tr>
                     <th>#Index</th>
                     <th>Name</th>
+                    <th>No of Products</th>
                     <th>Created At</th>
                     <th>Action</th>
                   </tr>
@@ -43,6 +44,7 @@
                   <tr>
                     <th>#Index</th>
                     <th>Name</th>
+                    <th>No of Products</th>
                     <th>Created At</th>
                     <th>Action</th>
                   </tr>
@@ -52,6 +54,7 @@
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$category->name}}</td>
+                            <td>{{count($category->products)}}</td>
                             <td>{{$category->created_at->format('F d Y')}}</td>
                             <td>
                                 <a href="{{route('categories.edit',$category->id)}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>

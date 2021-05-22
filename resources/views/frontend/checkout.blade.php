@@ -1,5 +1,7 @@
 @extends('layouts.frontend')
 
+@section('title','Checkout')
+
 @section('content')
 <main class="main">
 			<nav aria-label="breadcrumb" class="breadcrumb-nav">

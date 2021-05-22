@@ -36,7 +36,8 @@
                             <td>{{$order->id}}</td>
                             <th>Order Status</th>
                             <td>{{Str::title($order->order_status)}}</td>
-
+                            <th>Order Date</th>
+                            <td>{{$order->created_at->format('F d Y h:i a')}}</td>
                         </tr>
                     </table>
                 </div>
@@ -121,15 +122,15 @@
                 <table class="table">
                     <tr>
                         <th>Full Name</th>
-                        <td>{{$order->firstname}}</td>
+                        <td>{{$order->full_name}}</td>
                         <th>Email</th>
                         <td>{{$order->user->email}}</td>
                     </tr>
                     <tr>
                         <th>Phone</th>
-                        <td>{{$order->mobile}}</td>
-                        <th>Email</th>
-                        <td>{{$order->email}}</td>
+                        <td>{{$order->phone}}</td>
+                        <th>Zip/Postal Code</th>
+                        <td>{{$order->postal_code}}</td>
                     </tr>
                     <tr>
                         <th>Line 1</th>
@@ -143,12 +144,7 @@
                         <th>District</th>
                         <td>{{$order->district}}</td>
                     </tr>
-                    <tr>
-                        <th>Zip/Postal Code</th>
-                        <td>{{$order->postalcode}}</td>
-                        <th>Country</th>
-                        <td>Bangladesh</td>
-                    </tr>
+                    
                 </table>
             </div>
         </div>

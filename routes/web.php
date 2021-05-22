@@ -28,18 +28,24 @@ Route::get('/',[FrontendController::class,'index'])->name('/');
 //     return view('welcome');
 // });
 
+
 Route::get('product/{slug}',[FrontendController::class,'product_details'])->name('product_details');
 
 Route::get('cart',[CartController::class,'cart'])->name('cart');
 Route::get('cart/clear',[CartController::class,'cart_clear'])->name('cart.clear');
-Route::get('checkout',[CartController::class,'checkout'])->name('checkout');
-Route::get('thankyou',[OrderController::class,'thankyou'])->name('thankyou');
 
+
+Route::get('move_to_cart/{rowId}',[CartController::class,'move_to_cart'])->name('move_to_cart');
+Route::get('remove_from_wishlist/{rowId}',[CartController::class,'remove_from_wishlist'])->name('remove_from_wishlist');
+
+
+Route::get('wishlist',[CartController::class,'wishlist'])->name('wishlist.index');
 Route::post('add_to_wishlist',[CartController::class,'add_to_wishlist'])->name('add_to_wishlist');
-Route::post('remove_from_wishlist',[CartController::class,'remove_from_wishlist'])->name('remove_from_wishlist');
+// Route::post('remove_from_wishlist',[CartController::class,'remove_from_wishlist'])->name('remove_from_wishlist');
 
 
 Route::post('add_to_cart',[CartController::class,'add_to_cart'])->name('add_to_cart');
+Route::post('decrease_cart',[CartController::class,'decrease_cart'])->name('decrease_cart');
 Route::get('get_cart_data',[CartController::class,'get_cart_data'])->name('get_cart_data');
 Route::post('remove_from_cart',[CartController::class,'remove_from_cart'])->name('remove_from_cart');
 
@@ -64,11 +70,21 @@ Route::group(['middleware' => ['auth','verified']],function(){
     Route::get('order/{id}',[OrderController::class,'show'])->name('order.details');
 
     Route::get('change_order_status/{id}/{status}',[OrderController::class,'change_order_status'])->name('change_order_status');
+
+
+    Route::get('checkout',[CartController::class,'checkout'])->name('checkout');
+    Route::get('thankyou/{id}',[OrderController::class,'thankyou'])->name('thankyou');
+    
+    // review route
+    Route::get('make_review/{id}',[OrderController::class,'make_review'])->name('make_review');
+    Route::post('review.store',[OrderController::class,'review_store'])->name('review.store');
 });
+
+Route::post('update_cart',[CartController::class,'update_cart'])->name('update_cart');
 
 
 View::composer('layouts.frontend',function($view){
-    $cart_data = Cart::instance('cart');
+    // $cart_data = Cart::instance('cart');
     $wishlist_data = Cart::instance('wishlist')->content();
-    return $view->with(['cart_data' => $cart_data,'wishlist' => $wishlist_data]);
+    return $view->with(['wishlist' => $wishlist_data]);
 });

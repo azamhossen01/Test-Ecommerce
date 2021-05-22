@@ -1,5 +1,6 @@
 @extends('layouts.frontend')
 
+@section('title','Home')
 
 @section('content')
 <main class="main">
@@ -8,7 +9,7 @@
 				'loop': false
 			}">
         <div class="home-slide home-slide1 banner">
-            <img class="owl-lazy slide-bg" src="assets/images/lazy.png" data-src="assets/images/slider/slide-1.jpg"
+            <img class="owl-lazy slide-bg" src="{{asset('frontend')}}/assets/images/lazy.png" data-src="{{asset('frontend')}}/assets/images/slider/slide-1.jpg"
                 alt="slider image" width="1120" height="500"></img>
 
             <div class="container">
@@ -26,7 +27,7 @@
         </div><!-- End .home-slide -->
 
         <div class="home-slide home-slide2 banner">
-            <img class="owl-lazy slide-bg" src="assets/images/lazy.png" data-src="assets/images/slider/slide-2.jpg"
+            <img class="owl-lazy slide-bg" src="{{asset('frontend')}}/assets/images/lazy.png" data-src="{{asset('frontend')}}/assets/images/slider/slide-2.jpg"
                 alt="slider image" width="1120" height="500"></img>
 
             <div class="container">
@@ -101,7 +102,7 @@
 					}
 				}">
             <div class="banner">
-                <img src="assets/images/banners/banner1.jpg" width="360" height="280" alt="category banner">
+                <img src="{{asset('frontend')}}/assets/images/banners/banner1.jpg" width="360" height="280" alt="category banner">
                 <div class="banner-content bg-dark text-center">
                     <h5 class="m-b-1"><a href="category.html">Save Up To</a></h5>
                     <h4 class="text-white m-b-1">$100</h4>
@@ -109,7 +110,7 @@
                 </div>
             </div>
             <div class="banner">
-                <img src="assets/images/banners/banner2.jpg" width="360" height="280" alt="category banner">
+                <img src="{{asset('frontend')}}/assets/images/banners/banner2.jpg" width="360" height="280" alt="category banner">
                 <div class="banner-content bg-dark text-center">
                     <h5 class="m-b-1"><a href="category.html">Save Up To</a></h5>
                     <h4 class="text-white m-b-1">$80</h4>
@@ -117,7 +118,7 @@
                 </div>
             </div>
             <div class="banner">
-                <img src="assets/images/banners/banner3.jpg" width="360" height="280" alt="category banner">
+                <img src="{{asset('frontend')}}/assets/images/banners/banner3.jpg" width="360" height="280" alt="category banner">
                 <div class="banner-content bg-dark text-center">
                     <h5 class="m-b-1"><a href="category.html">Save Up To</a></h5>
                     <h4 class="text-white m-b-1">$90</h4>
@@ -133,7 +134,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="featured-products-tab" data-toggle="tab" href="#featured-products"
                         role="tab" aria-controls="featured-products" aria-selected="true">Featured Products</a>
-                        <button class="btn btn-block" onclick="refresh()">aaaaaa</button>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="latest-products-tab" data-toggle="tab" href="#latest-products" role="tab"
@@ -148,7 +148,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-1.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-1.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -190,7 +190,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-2.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-2.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -231,7 +231,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-3.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-3.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -272,7 +272,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-5.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-5.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -314,7 +314,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-4.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-4.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -361,8 +361,8 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-5.jpg">
-                                    <img src="assets/images/products/product-5-2.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-5.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-5-2.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -404,7 +404,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-6.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-6.jpg">
                                 </a>
                                 <div class="btn-icon-group">
                                     <a href="#" class="btn-icon btn-icon-wish"><i class="icon-heart"></i></a>
@@ -442,7 +442,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-7.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-7.jpg">
                                 </a>
                                 <div class="btn-icon-group">
                                     <a href="#" class="btn-icon btn-icon-wish"><i class="icon-heart"></i></a>
@@ -480,7 +480,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-8.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-8.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-hot">HOT</span>
@@ -522,7 +522,7 @@
                         <div class="product-default inner-quickview inner-icon quantity-input">
                             <figure>
                                 <a href="product.html">
-                                    <img src="assets/images/products/product-9.jpg">
+                                    <img src="{{asset('frontend')}}/assets/images/products/product-9.jpg">
                                 </a>
                                 <div class="label-group">
                                     <span class="product-label label-sale">-20%</span>
@@ -615,7 +615,7 @@
     </div>
 
     <div class="promo-section bg-gray" data-parallax="{'speed': 1.5, 'enableOnMobile': true}"
-        data-image-src="assets/images/banners/promo-bg.png">
+        data-image-src="{{asset('frontend')}}/assets/images/banners/promo-bg.png">
         <div class="promo-banner banner container text-uppercase">
             <div class="banner-content row align-items-center text-center">
                 <div class="col-md-5 col-lg-4 ml-xl-auto text-md-right">
@@ -637,12 +637,12 @@
 
     <div class="container">
         <div class="brands-slider owl-carousel owl-theme images-center mt-4">
-            <img src="assets/images/brands/brand1.png" width="140" height="60" alt="brand">
-            <img src="assets/images/brands/brand2.png" width="140" height="60" alt="brand">
-            <img src="assets/images/brands/brand3.png" width="140" height="60" alt="brand">
-            <img src="assets/images/brands/brand4.png" width="140" height="60" alt="brand">
-            <img src="assets/images/brands/brand5.png" width="140" height="60" alt="brand">
-            <img src="assets/images/brands/brand6.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand1.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand2.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand3.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand4.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand5.png" width="140" height="60" alt="brand">
+            <img src="{{asset('frontend')}}/assets/images/brands/brand6.png" width="140" height="60" alt="brand">
         </div><!-- End .brands-slider -->
 
         <hr class="mt-4 mb-5">
@@ -681,12 +681,12 @@
                         
                                <div id="test">
                                <a style="width:100%;font-size:8px" href="javascript:void(0)" onclick="addToCart({{$product->id}},'{{$product->name}}',{{$product->price}})" class="btn btn-dark btn-sm mt-1" title="Add to Cart">Add to Cart</a>
-                                @if($wish_lists->contains($product->id))
-                                <a style="width:100%;font-size:8px" href="javascript:void(0)" onclick="removeFromWishlist({{$product->id}})"  id="{{$product->id}}" class="btn btn-danger btn-sm mt-1" title="Remove From Wishlist">Remove Wishlist</a>
+                             
+                                <a style="width:100%;font-size:8px" href="javascript:void(0)" id="{{$product->id}}" onclick="addToWishlist({{$product->id}},'{{$product->name}}',{{$product->price}})" class="btn btn-{{$wish_lists->contains($product->id) ? 'danger' : 'dark'}} btn-sm mt-1" title="Wishlist">Wishlist</a>
+                            
                                 
-                                @else 
-                                <a style="width:100%;font-size:8px" href="javascript:void(0)" onclick="addToWishlist({{$product->id}},'{{$product->name}}',{{$product->price}})" id="{{$product->id}}" class="btn btn-dark btn-sm mt-1" title="Add To Wishlist">Add Wishlist</a>
-                                @endif
+                                <!-- <a style="width:100%;font-size:8px" href="javascript:void(0)" onclick="addToWishlist({{$product->id}},'{{$product->name}}',{{$product->price}})" id="{{$product->id}}" class="btn btn-dark btn-sm mt-1" title="Add To Wishlist">Add Wishlist</a> -->
+                                
                                </div>
                         
                     </div>
@@ -729,33 +729,23 @@
                 url : "{{route('add_to_wishlist')}}",
                 success : function(data){
                     console.log(data);
-                    toastr["success"]("Add to wishlist successful", "Success")
+                    if(data.msg == 'remove'){
+                        $('#'+id).removeClass('btn-danger').addClass('btn-dark');
+                        toastr["success"]("Remove from wishlist successful", "Success")
+                    }else{
+                        $('#'+id).removeClass('btn-dark').addClass('btn-danger');
+                        toastr["success"]("Add to wishlist successful", "Success")
+                    }
+                    
                     $("#wishlist").load(location.href + " #wishlist");
                     
-                    $('#'+id).removeClass('btn-dark').addClass('btn-danger');
+                    
                 
                     
                 }
             });
         }
-    function removeFromWishlist(id){
-            $.ajax({
-                method : 'post',
-                data : {id:id,_token: "{{ csrf_token() }}"},
-                url : "{{route('remove_from_wishlist')}}",
-                success : function(data){
-                    console.log(data);
-                    toastr["success"]("Remove from wishlist successful", "Success")
-                    $("#wishlist").load(location.href + " #wishlist");
-                    
-                    $('#'+id).removeClass('btn-danger').addClass('btn-dark');
-                    
-                    
-                }
-            });
-        }
-        function refresh(){
-            $( "#test" ).html();
-        }
+
+        
 </script>
 @endpush

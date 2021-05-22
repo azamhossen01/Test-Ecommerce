@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Review;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
@@ -59,11 +60,12 @@ class OrderController extends Controller
         }
         Cart::instance('cart')->destroy();
         Toastr::success('Order placed successful', 'Success', ["positionClass" => "toast-top-right"]);
-        return redirect()->route('thankyou');
+        return redirect()->route('thankyou',$order->id);
     }
 
-    public function thankyou(){
-        return view('frontend.thankyou');
+    public function thankyou($id){
+        $order = Order::findOrFail($id);
+        return view('frontend.thankyou',compact('order'));
     }
 
 
@@ -85,5 +87,26 @@ class OrderController extends Controller
         }
         // return $order->order_details;
         
+    }
+
+    public function make_review($order_detail_id){
+        return view('frontend.order.make_review',compact('order_detail_id'));
+    }
+
+    public function review_store(Request $request){
+        $request->validate([
+            'rating' => 'required',
+            'comments' => 'required|max:1000'
+        ]);
+        $review = Review::create([
+            'order_detail_id' => $request->order_detail_id,
+            'rating' => $request->rating,
+            'comments' => $request->comments
+        ]);
+        $review->order_detail()->update([
+            'review_status' => true
+        ]);
+        Toastr::success("Submit order review successfully", 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect()->route('order.details',$review->order_detail->order_id);
     }
 }

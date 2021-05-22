@@ -1,5 +1,7 @@
 @extends('layouts.frontend')
 
+@section('title','Thank You')
+
 @section('content')
 <main class="main">
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -21,7 +23,7 @@
                             complete your account setup.</p> -->
                         <hr>
                         <p>
-                            Having trouble? <a href="">Contact us</a>
+                            See order details <a href="{{route('order.details',$order->id)}}">Click here</a>
                         </p>
                         <p class="lead">
                             <a class="btn btn-primary btn-sm" href="/"

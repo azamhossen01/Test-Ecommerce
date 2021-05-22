@@ -1,5 +1,72 @@
 @extends('layouts.frontend')
 
+@section('title','Product Detail')
+
+@push('css')
+<style>
+    input,
+    textarea {
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        margin: 0;
+        outline: none;
+        padding: 10px;
+    }
+
+    input[type="button"] {
+        -webkit-appearance: button;
+        cursor: pointer;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    .input-group {
+        clear: both;
+        margin: 15px 0;
+        position: relative;
+    }
+
+    .input-group input[type='button'] {
+        background-color: #eeeeee;
+        min-width: 38px;
+        width: auto;
+        transition: all 300ms ease;
+    }
+
+    .input-group .button-minus,
+    .input-group .button-plus {
+        font-weight: bold;
+        height: 38px;
+        padding: 0;
+        width: 38px;
+        position: relative;
+    }
+
+    .input-group .quantity-field {
+        position: relative;
+        height: 38px;
+        left: -6px;
+        text-align: center;
+        width: 62px;
+        display: inline-block;
+        font-size: 13px;
+        margin: 0 0 5px;
+        resize: vertical;
+    }
+
+    .button-plus {
+        left: -13px;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: none;
+    }
+</style>
+@endpush
 
 @section('content')
 <main class="main">
@@ -19,10 +86,10 @@
                     <div class="product-slider-container">
                         <div class="product-single-carousel owl-carousel owl-theme">
                             <div class="product-item">
-                                <img class="product-single-image" src="{{asset('frontend')}}/assets/images/products/zoom/product-1.jpg"
-                                    data-zoom-image="{{$product->image}}" />
+                                <img class="product-single-image" src="{{asset('storage/products/'.$product->image)}}"
+                                     />
                             </div>
-                            <div class="product-item">
+                            <!-- <div class="product-item">
                                 <img class="product-single-image" src="{{asset('frontend')}}/assets/images/products/zoom/product-2.jpg"
                                     data-zoom-image="{{asset('frontend')}}/assets/images/products/zoom/product-2-big.jpg" />
                             </div>
@@ -33,14 +100,14 @@
                             <div class="product-item">
                                 <img class="product-single-image" src="{{asset('frontend')}}/assets/images/products/zoom/product-4.jpg"
                                     data-zoom-image="{{asset('frontend')}}/assets/images/products/zoom/product-4-big.jpg" />
-                            </div>
+                            </div> -->
                         </div>
                         <!-- End .product-single-carousel -->
                         <span class="prod-full-screen">
                             <i class="icon-plus"></i>
                         </span>
                     </div>
-                    <div class="prod-thumbnail owl-dots" id='carousel-custom-dots'>
+                    <!-- <div class="prod-thumbnail owl-dots" id='carousel-custom-dots'>
                         <div class="owl-dot">
                             <img src="{{asset('frontend')}}/assets/images/products/zoom/product-1.jpg" />
                         </div>
@@ -53,7 +120,7 @@
                         <div class="owl-dot">
                             <img src="{{asset('frontend')}}/assets/images/products/zoom/product-4.jpg" />
                         </div>
-                    </div>
+                    </div> -->
                 </div><!-- End .product-single-gallery -->
 
                 <div class="col-md-7 product-single-details">
@@ -95,15 +162,16 @@
                     <hr class="divider">
 
                     <div class="product-action">
-                        <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text">
+                        <div class="product-single-qtyy">
+                            <!-- <input class="horizontal-quantity form-control" type="text"> -->
 
 
-                            <!-- <div class="def-number-input number-input safari_only mb-0 w-100">
-                          <button id="basic-example-decrease" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class=""><i class="fas fa-minus"></i> </button>
-                          <input class="quantity" min="0" name="quantity" value="1" type="number">
-                          <button id="basic-example-add" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class=""><i class="fas fa-plus"></i></button>
-                        </div> -->
+                            <div class="input-group">
+                                        <input type="button" onclick="decreaseCartQuantity({{$product->id}},'{{$product->name}}',{{$product->price}})"  value="-" class="button-minus" data-id="{{$product->id}}" data-field="quantity">
+                                        <input type="number" step="1" max="" value="1" id="{{$product->id}}" name="quantity"
+                                            class="quantity-field">
+                                        <input onclick="increaseCartQuantity({{$product->id}},'{{$product->name}}',{{$product->price}})" type="button" value="+" class="button-plus"  data-id="{{$product->id}}" data-field="quantity">
+                                    </div>
                         </div><!-- End .product-single-qty -->
 
                         <a href="javascript:void(0)" onclick="addToCart({{$product->id}},'{{$product->name}}',{{$product->price}})" class="btn btn-dark add-cart icon-shopping-cart" title="Add to Cart">Add to
@@ -149,7 +217,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content"
-                        role="tab" aria-controls="product-reviews-content" aria-selected="false">Reviews (3)</a>
+                        role="tab" aria-controls="product-reviews-content" aria-selected="false">Reviews ({{count($reviews)}})</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -199,90 +267,33 @@
                     <div class="product-reviews-content">
                         <div class="row">
                             <div class="col-xl-7">
-                                <h2 class="reviews-title">3 reviews for Product Long Name</h2>
-
-                                <ol class="comment-list">
-                                    <li class="comment-container">
-                                        <div class="comment-avatar">
-                                            <img src="{{asset('frontend')}}/assets/images/avatar/avatar1.jpg" width="65" height="65"
-                                                alt="avatar" />
-                                        </div><!-- End .comment-avatar-->
-
-                                        <div class="comment-box">
-                                            <div class="ratings-container">
+                                <h2 class="reviews-title">{{count($reviews)}} reviews for {{$product->name}}</h2>
+                            
+                                <table class="table table-bordered">
+                                    @forelse($reviews as $key=>$review)
+                                    <tr>
+                                        <td width="10%"><img src="{{asset('storage/customers/'.$review->order_detail->order->user->customer->avatar??'')}}" width="65" height="65"
+                                                alt="avatar" /></td>
+                                        <td>
+                                        <div class="ratings-container">
                                                 <div class="product-ratings">
-                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
+                                                    <span class="ratings" style="width:{{$review->rating*20}}%"></span><!-- End .ratings -->
                                                 </div><!-- End .product-ratings -->
                                             </div><!-- End .ratings-container -->
 
                                             <div class="comment-info mb-1">
-                                                <h4 class="avatar-name">John Doe</h4> - <span
-                                                    class="comment-date">Novemeber 15, 2019</span>
-                                            </div><!-- End .comment-info -->
+														<h4 class="avatar-name">{{$review->order_detail->order->user->name}}</h4> - <span class="comment-date">{{$review->created_at->format('F d, Y')}}</span>
+													</div><!-- End .comment-info -->
+                                            <p>{{$review->comments}}</p>
+                                        </td>
+                                        
+                                    </tr>
+                                    @empty 
 
-                                            <div class="comment-text">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip.</p>
-                                            </div><!-- End .comment-text -->
-                                        </div><!-- End .comment-box -->
-                                    </li><!-- comment-container -->
+                                    @endforelse
+                                </table>
 
-                                    <li class="comment-container">
-                                        <div class="comment-avatar">
-                                            <img src="{{asset('frontend')}}/assets/images/avatar/avatar2.jpg" width="65" height="65"
-                                                alt="avatar" />
-                                        </div><!-- End .comment-avatar-->
-
-                                        <div class="comment-box">
-                                            <div class="ratings-container">
-                                                <div class="product-ratings">
-                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
-                                                </div><!-- End .product-ratings -->
-                                            </div><!-- End .ratings-container -->
-
-                                            <div class="comment-info mb-1">
-                                                <h4 class="avatar-name">John Doe</h4> - <span
-                                                    class="comment-date">Novemeber 15, 2019</span>
-                                            </div><!-- End .comment-info -->
-
-                                            <div class="comment-text">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip.</p>
-                                            </div><!-- End .comment-text -->
-                                        </div><!-- End .comment-box -->
-                                    </li><!-- comment-container -->
-
-                                    <li class="comment-container">
-                                        <div class="comment-avatar">
-                                            <img src="{{asset('frontend')}}/assets/images/avatar/avatar3.jpg" width="65" height="65"
-                                                alt="avatar" />
-                                        </div><!-- End .comment-avatar-->
-
-                                        <div class="comment-box">
-                                            <div class="ratings-container">
-                                                <div class="product-ratings">
-                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
-                                                </div><!-- End .product-ratings -->
-                                            </div><!-- End .ratings-container -->
-
-                                            <div class="comment-info mb-1">
-                                                <h4 class="avatar-name">John Doe</h4> - <span
-                                                    class="comment-date">Novemeber 15, 2019</span>
-                                            </div><!-- End .comment-info -->
-
-                                            <div class="comment-text">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip.</p>
-                                            </div><!-- End .comment-text -->
-                                        </div><!-- End .comment-box -->
-                                    </li><!-- comment-container -->
-                                </ol><!-- End .comment-list -->
+                              
                             </div>
 
                             <div class="col-xl-5">
@@ -606,19 +617,32 @@
                 }
             });
         }
+        function increaseCartQuantity(id,name,price){
+            $.ajax({
+                method : 'post',
+                data : {id:id,name:name,price:price,_token: "{{ csrf_token() }}"},
+                url : "{{route('add_to_cart')}}",
+                success : function(data){
+                    toastr["success"]("Increase cart quantity", "Success")
+                    $("#mydiv").load(location.href + " #mydiv");
+                }
+            });
+        }
+        function decreaseCartQuantity(id,name,price){
+            $.ajax({
+                method : 'post',
+                data : {id:id,name:name,price:price,_token: "{{ csrf_token() }}"},
+                url : "{{route('decrease_cart')}}",
+                success : function(data){
+                    console.log(data);
+                    toastr["success"]("Cart decrease successful", "Success")
 
-        // function get_cart_data(){
-        //     $.ajax({
-        //         method : 'get',
-        //         url : "{{route('get_cart_data')}}",
-        //         success : function(data){
-        //             console.log(data);
-        //             $("#cart_count").html(data.total_qty); 
-        //             $('#total_items').html(data.total_items+" items");
-                    
-                    
-        //         }
-        //     });
-        // }
+
+                    $("#mydiv").load(location.href + " #mydiv");
+                }
+            });
+        }
+
+       
     </script>
 @endpush

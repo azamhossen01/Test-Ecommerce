@@ -54,15 +54,23 @@
                                 <th>Price</th>
                                 <th>Qty</th>
                                 <th>Total</th>
+                                @if($order->order_status == 'Completed')
+                                    <th>Review</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($order->order_details as $key=>$order_item)
+                            @forelse($order->order_details as $key=>$order_detail)
                             <tr>
-                                <td>{{$order_item->product->name}}</td>
-                                <td>BDT {{$order_item->price}}</td>
-                                <td>{{$order_item->quantity}}</td>
-                                <td>{{$order_item->price*$order_item->quantity}}</td>
+                                <td>{{$order_detail->product->name}}</td>
+                                <td>BDT {{$order_detail->price}}</td>
+                                <td>{{$order_detail->quantity}}</td>
+                                <td>{{$order_detail->price*$order_detail->quantity}}</td>
+                                @if($order->order_status == 'Completed' && $order_detail->review_status == false)
+                            <td><a href="{{route('make_review',$order_detail->id)}}">Write you review here</a></td>
+                                @elseif($order->order_status == 'Completed' && $order_detail->review_status == true)
+                                <td title="{{$order_detail->review->comments}}">Reviewed</td>
+                                @endif
                             </tr>
                             @empty
 
@@ -103,6 +111,7 @@
                             <td>BDT
                                 {{$order->total}}</td>
                         </tr>
+                        
                     </table>
                 </div>
             </div>

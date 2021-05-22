@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Simple Ecommerce</title>
+    <title>@yield('title')</title>
 
     <meta name="keywords" content="HTML5 Template" />
     <meta name="description" content="Simple Ecommerce">
@@ -58,12 +58,12 @@
                 <div class="container">
                     <div class="header-left header-dropdowns">
                         <div class="header-dropdown">
-                            <a href="#" class="pl-0"><img src="assets/images/flags/en.png" alt="England flag">ENG</a>
+                            <a href="#" class="pl-0"><img src="{{asset('frontend')}}/assets/images/flags/en.png" alt="England flag">ENG</a>
                             <div class="header-menu">
                                 <ul>
-                                    <li><a href="#"><img src="assets/images/flags/en.png" alt="England flag">ENG</a>
+                                    <li><a href="#"><img src="{{asset('frontend')}}/assets/images/flags/en.png" alt="England flag">ENG</a>
                                     </li>
-                                    <li><a href="#"><img src="assets/images/flags/fr.png" alt="France flag">FRA</a></li>
+                                    <li><a href="#"><img src="{{asset('frontend')}}/assets/images/flags/fr.png" alt="France flag">FRA</a></li>
                                 </ul>
                             </div><!-- End .header-menu -->
                         </div><!-- End .header-dropown -->
@@ -162,10 +162,10 @@
                             <i class="icon-menu"></i>
                         </button>
                         <a href="index-2.html" class="logo">
-                            <img src="assets/images/logo.png" alt="Porto Logo">
+                            <img src="{{asset('frontend')}}/assets/images/logo.png" alt="Porto Logo">
                         </a>
                     </div><!-- End .header-center -->
-
+                        
                     <div class="header-right w-lg-max ml-0 ml-lg-auto">
                         <div class="header-contact d-none d-lg-flex align-items-center ml-auto pr-xl-4 mr-4">
                             <i class="icon-phone-2"></i>
@@ -175,10 +175,12 @@
 
                         <a href="login.html" class="header-icon login-link pl-1"><i class="icon-user-2"></i></a>
 
-                        <a href="#" class="header-icon pl-1 pr-2"><i class="icon-wishlist-2"></i>
+                        <a href="{{route('wishlist.index')}}" class="header-icon pl-1 pr-2"><i class="icon-wishlist-2"></i>
                             <span class="cart-count text-danger" id="wishlist">{{$wishlist->count() ?? 0}}</span>
                         </a>
-
+                        @php 
+                        $cart_data = Cart::instance('cart');
+                        @endphp
                         <div class="dropdown cart-dropdown" id="mydiv">
                             <a href="#" class="dropdown-toggle dropdown-arrow" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -222,15 +224,15 @@
                                         
                                     </div>
 
-                                    <div class="dropdown-cart-total">
+                                    <!-- <div class="dropdown-cart-total">
                                         <span>Tax</span>
 
                                         <span class="cart-total-price float-right">BDT {{$cart_data->tax() ?? 0}}</span>
-                                    </div>
+                                    </div> -->
                                     <div class="dropdown-cart-total">
                                         <span>Total</span>
 
-                                        <span class="cart-total-price float-right">BDT {{$cart_data->total() ?? 0}}</span>
+                                        <span class="cart-total-price float-right">BDT {{(($cart_data->total() ?? 0) - ($cart_data->tax() ?? 0))}}.00</span>
                                     </div>
 
                                     <div class="dropdown-cart-action">
@@ -238,7 +240,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- End .dropdown -->
+                        </div>
+
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
@@ -361,7 +364,7 @@
                                         </div><!-- End .col-lg-4 -->
 
                                         <div class="col-lg-3 p-0">
-                                            <img src="assets/images/menu-bg.png" alt="Menu banner"
+                                            <img src="{{asset('frontend')}}/assets/images/menu-bg.png" alt="Menu banner"
                                                 class="product-promo">
                                         </div><!-- End .col-lg-4 -->
                                     </div><!-- End .row -->
@@ -510,7 +513,7 @@
                 <div class="container d-flex justify-content-between align-items-center flex-wrap">
                     <p class="footer-copyright py-3 pr-4 mb-0">© Porto eCommerce. 2020. All Rights Reserved</p>
 
-                    <img src="assets/images/payments.png" alt="payment methods" class="footer-payments py-3">
+                    <img src="{{asset('frontend')}}/assets/images/payments.png" alt="payment methods" class="footer-payments py-3">
                 </div><!-- End .container -->
             </div><!-- End .footer-bottom -->
         </footer>
@@ -626,7 +629,7 @@
     <!-- <div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form"
         style="background: #f1f1f1 no-repeat center/cover url(assets/images/newsletter_popup_bg.jpg)">
         <div class="newsletter-popup-content">
-            <img src="assets/images/logo-black.png" alt="Logo" class="logo-newsletter">
+            <img src="{{asset('frontend')}}/assets/images/logo-black.png" alt="Logo" class="logo-newsletter">
             <h2>BE THE FIRST TO KNOW</h2>
             <p class="mb-2">Subscribe to the Porto eCommerce newsletter to receive timely updates from your favorite
                 products.</p>
@@ -698,6 +701,26 @@
 }
     </script>
 {!! Toastr::message() !!}
+
+<script>
+    toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+</script>
     @stack('js')
 </body>
 
