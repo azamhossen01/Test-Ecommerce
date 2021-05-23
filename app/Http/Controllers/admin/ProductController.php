@@ -107,6 +107,12 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+        // $path = "products/"."aa";
+        // if (Storage::disk('public')->exists($path)) {
+        //     return 'ache';
+        // }else{
+        //     return 'nai';
+        // }
         $request->validate([
             'category_id' => 'required',
             'name' => 'required|min:3|max:50|unique:products,name,'.$id,
@@ -122,7 +128,10 @@ class ProductController extends Controller
             if(!Storage::disk('public')->exists('products')){
                 Storage::disk('public')->makeDirectory('products');
             }
-            if(!empty($product->image) && $product->image != 'default.png'){
+            // if(!empty($product->image) && $product->image != 'default.png'){
+            //     Storage::disk('public')->delete('products/'.$product->image);
+            // }
+            if(Storage::disk('public')->exists('products/'.$product->image) && $product->image != 'default.png'){
                 Storage::disk('public')->delete('products/'.$product->image);
             }
             $img = Image::make($request->image)->resize(265,263)->stream();
